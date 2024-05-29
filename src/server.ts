@@ -23,6 +23,25 @@ app.post('/soal_pertama', (req, res) => {
   });
 });
 
+app.post('/soal_kedua', (req, res) => {
+  const daftarBilangan: number[] = req.body.bilangan;
+
+  const bilanganTerkecilFn = (daftarBilangan: number[]) => {
+    let terkecil = Number.MAX_SAFE_INTEGER;
+
+    for (const bilangan of daftarBilangan) {
+      if (bilangan < terkecil) {
+        terkecil = bilangan;
+      }
+    }
+    
+    return terkecil;
+  }
+  res.send({
+    tekecil: bilanganTerkecilFn(daftarBilangan),
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`Running on port: ${PORT}`);
 });
