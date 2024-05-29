@@ -42,6 +42,26 @@ app.post('/soal_kedua', (req, res) => {
   });
 });
 
+app.post('/soal_ketiga', (req, res) => {
+  const daftarBilangan: number[] = req.body.bilangan;
+
+  const bilanganTerbesarFn = (daftarBilangan: number[]) => {
+    let terbesar = -Number.MAX_SAFE_INTEGER;
+
+    for (const bilangan of daftarBilangan) {
+      if (bilangan > terbesar) {
+        terbesar = bilangan;
+      }
+    }
+    
+    return terbesar;
+  }
+
+  res.send({
+    terbesar: bilanganTerbesarFn(daftarBilangan),
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`Running on port: ${PORT}`);
 });
