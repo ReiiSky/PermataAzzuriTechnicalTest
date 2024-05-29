@@ -42,23 +42,48 @@ app.post('/soal_kedua', (req, res) => {
   });
 });
 
-app.post('/soal_ketiga', (req, res) => {
+app.post('/soal_keempat', (req, res) => {
   const daftarBilangan: number[] = req.body.bilangan;
 
-  const bilanganTerbesarFn = (daftarBilangan: number[]) => {
-    let terbesar = -Number.MAX_SAFE_INTEGER;
+  const bilanganLebihDariSatuFn = (daftarBilangan: number[]) => {
+    const bilanganLebihDariSatu = new Map<number, number>();
 
     for (const bilangan of daftarBilangan) {
-      if (bilangan > terbesar) {
-        terbesar = bilangan;
+      const currentBilangan = bilanganLebihDariSatu.get(bilangan);
+
+      if (!currentBilangan) { // 
+        bilanganLebihDariSatu.set(bilangan, 1);
+      } else {
+        bilanganLebihDariSatu.set(bilangan, currentBilangan + 1);
       }
     }
-    
-    return terbesar;
+
+    const hasilBilangan = [];
+
+    for (const [_, bilangan] of daftarBilangan.entries()) {
+      const jumlah = bilanganLebihDariSatu.get(bilangan);
+      if (!jumlah) continue;
+
+      if (jumlah > 1 && !exist(hasilBilangan, bilangan)) {
+        hasilBilangan.push(bilangan);
+      }
+    }
+
+    return hasilBilangan;
+  }
+
+  const exist = (daftarBilangan: number[], bilangan : number) => {
+    for (const b of daftarBilangan) {
+      if (b == bilangan) {
+        return true
+      }
+    }
+
+    return false;
   }
 
   res.send({
-    terbesar: bilanganTerbesarFn(daftarBilangan),
+    lebih_dari_satu: bilanganLebihDariSatuFn(daftarBilangan),
   });
 });
 
